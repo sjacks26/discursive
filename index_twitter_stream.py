@@ -1,4 +1,5 @@
 # This version comments out references to ES, so ES isn't necessary.
+# This branch tries to base file size on time elapsed rather than number of tweets. This (I hope) reduces the chances of missed tweets if more than the count limit are streamed in the time between cron runs. Big counter numbers works (I think), but the file isn't created until the count is reached, so slow days for the collection terms might mean a file covers days (and isn't available until it's complete).
 
 import json
 import tweepy
@@ -45,11 +46,13 @@ class StreamListener(tweepy.StreamListener):
     def __init__(self, api=None):
         super(StreamListener, self).__init__()
         self.counter = 0
-        self.limit = 500
         self.tweet_list = []
+        self.start_time = time.time()
+        # 900 seconds = 15 minutes. Adjust the limit to match crontab schedule.
+        self.limit = 900
 
     def on_status(self, status):
-        if self.counter < self.limit:
+        if (time.time() - self.start_time) < self.limit:
             extra = create_extra_fields(status)
             tweet = map_tweet_for_es(status, TOPICS, extra)
 
