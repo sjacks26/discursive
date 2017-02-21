@@ -108,7 +108,7 @@ def search():
     return
 
 
-def dump_to_elastic(bodydata):
+#def dump_to_elastic(bodydata):
     #es.index(index='twitter', doc_type="message", body=bodydata)
 
 
