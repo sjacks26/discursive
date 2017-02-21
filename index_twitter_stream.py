@@ -1,3 +1,5 @@
+# This version comments out references to ES, so ES isn't necessary.
+
 import json
 import tweepy
 from config import esconn, aws_config, twitter_config
@@ -17,7 +19,7 @@ auth.set_access_token(twitter_config.ACCESS_TOKEN, twitter_config.ACCESS_TOKEN_S
 api = tweepy.API(auth)
 
 # Get elasticsearch connection
-es = esconn.esconn()
+#es = esconn.esconn()
 
 if len(sys.argv) > 2:
     sys.exit('ERROR: Received 2 or more arguments: {} {} {} Expected 1: Topic file name'.format(sys.argv[0], sys.argv[1], sys.argv[2]))
@@ -53,7 +55,7 @@ class StreamListener(tweepy.StreamListener):
 
             # append to instance attribute and then index to elasticsearch (rethink if limit scales up significantly)
             self.tweet_list.append(tweet)
-            dump_to_elastic(tweet)
+            #dump_to_elastic(tweet)
 
             print 'Tweet Count# ' + str(self.counter) + ' ' + json.dumps(fix_date_for_tweet(tweet))
         else:
@@ -104,7 +106,7 @@ def search():
 
 
 def dump_to_elastic(bodydata):
-    es.index(index='twitter', doc_type="message", body=bodydata)
+    #es.index(index='twitter', doc_type="message", body=bodydata)
 
 
 def dump_to_s3(data):
