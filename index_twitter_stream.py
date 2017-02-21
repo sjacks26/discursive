@@ -3,7 +3,7 @@
 
 import json
 import tweepy
-from config import esconn, aws_config, twitter_config
+from config import aws_config, twitter_config
 import os
 from datetime import datetime as dt
 from tweet_model import map_tweet_for_es
