@@ -1,3 +1,5 @@
+*THIS README IS OUT OF DATE*
+
 # discursive
 
 This tool searches Twitter for a collection of topics and stores the Tweet data in an Elasticsearch index _and_ an S3 bucket. The intended use case is for social network composition and Tweet text analysis. 
