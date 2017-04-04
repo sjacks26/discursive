@@ -1,12 +1,37 @@
+Last login: Tue Apr  4 17:17:03 on ttys000
+Sam-Jacksons-MacBook-Pro:~ samjackson$ cd nationalism-protest/
+Sam-Jacksons-MacBook-Pro:nationalism-protest samjackson$ ssh -i "nationalism-protest-key1.pem" ubuntu@ec2-52-40-145-217.us-west-2.compute.amazonaws.com
+Welcome to Ubuntu 16.04.1 LTS (GNU/Linux 4.4.0-59-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+60 packages can be updated.
+0 updates are security updates.
+
+
+*** System restart required ***
+Last login: Tue Apr  4 20:58:41 2017 from 107.182.231.36
+ubuntu@ip-172-31-37-43:~$ vi discursive/index_twitter_stream.py 
+
+
+
+
 # This version comments out references to ES, so ES isn't necessary.
+# This branch tries to base file size on time elapsed rather than number of tweets. This (I hope) reduces the chances of missed tweets if more than the count limit are streamed in the time between cron runs. Big counter numbers works (I think), but the file isn't created until the count is reached, so slow days for the collection terms might mean a file covers days (and isn't available until it's complete).
 
 import json
 import tweepy
-from config import esconn, aws_config, twitter_config
+from config import aws_config, twitter_config
 import os
 from datetime import datetime as dt
 from tweet_model import map_tweet_for_es
 from config import s3conn
+import time
 
 # unicode mgmt
 import sys
@@ -45,11 +70,13 @@ class StreamListener(tweepy.StreamListener):
     def __init__(self, api=None):
         super(StreamListener, self).__init__()
         self.counter = 0
-        self.limit = 500
         self.tweet_list = []
-
+        self.start_time = time.time()
+        # 3600 seconds = 60 minutes. Adjust the limit to match crontab schedule.
+        self.limit = 3600
+                                                                                                                                                                   15,1          Top
     def on_status(self, status):
-        if self.counter < self.limit:
+        if (time.time() - self.start_time) < self.limit:
             extra = create_extra_fields(status)
             tweet = map_tweet_for_es(status, TOPICS, extra)
 
@@ -105,7 +132,7 @@ def search():
     return
 
 
-def dump_to_elastic(bodydata):
+#def dump_to_elastic(bodydata):
     #es.index(index='twitter', doc_type="message", body=bodydata)
 
 
