@@ -1,26 +1,3 @@
-Last login: Tue Apr  4 17:17:03 on ttys000
-Sam-Jacksons-MacBook-Pro:~ samjackson$ cd nationalism-protest/
-Sam-Jacksons-MacBook-Pro:nationalism-protest samjackson$ ssh -i "nationalism-protest-key1.pem" ubuntu@ec2-52-40-145-217.us-west-2.compute.amazonaws.com
-Welcome to Ubuntu 16.04.1 LTS (GNU/Linux 4.4.0-59-generic x86_64)
-
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/advantage
-
-  Get cloud support with Ubuntu Advantage Cloud Guest:
-    http://www.ubuntu.com/business/services/cloud
-
-60 packages can be updated.
-0 updates are security updates.
-
-
-*** System restart required ***
-Last login: Tue Apr  4 20:58:41 2017 from 107.182.231.36
-ubuntu@ip-172-31-37-43:~$ vi discursive/index_twitter_stream.py 
-
-
-
-
 # This version comments out references to ES, so ES isn't necessary.
 # This branch tries to base file size on time elapsed rather than number of tweets. This (I hope) reduces the chances of missed tweets if more than the count limit are streamed in the time between cron runs. Big counter numbers works (I think), but the file isn't created until the count is reached, so slow days for the collection terms might mean a file covers days (and isn't available until it's complete).
 
