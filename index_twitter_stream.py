@@ -51,7 +51,7 @@ class StreamListener(tweepy.StreamListener):
         self.start_time = time.time()
         # 3600 seconds = 60 minutes. Adjust the limit to match crontab schedule.
         self.limit = 3600
-                                                                                                                                                                   15,1          Top
+
     def on_status(self, status):
         if (time.time() - self.start_time) < self.limit:
             extra = create_extra_fields(status)
